@@ -51,7 +51,49 @@ class HTML_Report():
 		#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
 
 	#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
-	def AddAllData(self, key, author_word_freqs, author_word_length_freqs, max_word_length, author_words_per_sentence_freqs, max_words_per_sentence_freq, vowel_percentages, words_per_sentence_counts):
+	def AddAllData(self, key, metrics):	
+		# Word Frequencies - Temp Data
+		author_word_freqs = []
+
+		# Word Length Frequencies - Temp Data
+		author_word_length_freqs = []
+		max_word_length = 0
+
+		# Word Per Sentence Frequencies - Temp Data
+		author_words_per_sentence_freqs = []
+		max_words_per_sentence_freq = 0
+
+		# Vowel Percentages - Temp Data
+		vowel_percentages = [] 
+
+		# Words Per Sentence - Temp Data
+		words_per_sentence_counts = []
+
+		# Metric Dictionary List (will hold all metric dictionary for a SINGLE AUTHOR)
+		list_of_metric_dictionaries = []
+
+		for metrics_dict in metrics:
+			# Word Frequecies --> METRIC #1
+			author_word_freqs.append(metrics_dict["freq_dict"])
+
+			# Word Length Frequencies (keep track of max frequency seen so far --> for plotting purposes) --> METRIC #2
+			word_length_freqs = metrics_dict["length_freq_list"]
+			if word_length_freqs[-1][0] > max_word_length:
+				max_word_length = word_length_freqs[-1][0]
+			author_word_length_freqs.append(copy.deepcopy(word_length_freqs))
+
+			# Words Per Sentence Frequencies (keep track of max frequency seen so far --> for plotting purposes) --> METRIC #3
+			words_per_sentence_freqs = metrics_dict["words_per_sentence_freq"]
+			if words_per_sentence_freqs[-1][0] > max_words_per_sentence_freq:
+				max_words_per_sentence_freq = words_per_sentence_freqs[-1][0]
+			author_words_per_sentence_freqs.append(copy.deepcopy(words_per_sentence_freqs))
+
+			# Percentage of Words that begin with a Vowel --> METRIC #4
+			vowel_percentages.append(metrics_dict["vowel_percentage"])
+
+			# Avg Number of Words Per Sentence --> METRIC #5
+			words_per_sentence_counts.append(metrics_dict["avg_words_per_sentence"])
+
 		# Add word frequency (for a single author) data to html graph generator
 		self.AddWordFreqData(key, author_word_freqs)
 		# Add all word length frequency (for a single author) data to html graph generator

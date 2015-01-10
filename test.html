@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+      <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ["Element", "Density", { role: "style" }, "Density2", { role: "style" } ],
+          ["Copper", 8.94, "red", 6.5, "red"],
+          ["Silver", 10.49, "blue", 6.5, "blue"],
+          ["Gold", 19.30, "red", 6.5, "blue"],
+          ["Platinum", 21.45, "red", 6.5, "blue"]
+        ]);
+
+        var data1 = google.visualization.arrayToDataTable([
+          ["Sample", "Copper", { role: "style" }, "Silver", { role: "style" }, "gold", { role: "style" }],
+          ["1", 8.94, "red", 6.5, "blue", 8.94, "yellow"],
+          ["2", 10.49, "red", 6.5, "blue", 8.94, "yellow"],
+          ["3", 19.30, "red", 6.5, "blue", 8.94, "yellow"],
+          ["4", 21.45, "red", 6.5, "blue", 8.94, "yellow"]
+        ]);
+
+        var data2 = google.visualization.arrayToDataTable([
+          ["Element", "Density", { role: "style" }],
+          ["Copper", {8.94, 5.6, 7, 8}, "red"],
+          ["Silver", {8.94, 5.6, 7, 8}, "blue"],
+          ["Gold", {8.94, 5.6, 7, 8}, "green"],
+          ["Platinum", {8.94, 5.6, 7, 8}, "yellow"]
+        ]);
+
+        var options = {
+          title: "Density of Precious Metals, in g/cm^3",
+          width: 600,
+          height: 400,
+          bar: {groupWidth: "95%"},
+          legend: { position: "none" },
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+        chart.draw(data2, options);
+    }
+  </script>
+
+  </head>
+  <body>
+    <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+  </body>
+</html>

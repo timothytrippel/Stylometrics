@@ -1,0 +1,216 @@
+<html>
+  <head>
+    <style>
+      h1{
+        font-family: 'Lucinda', sans-serif;
+        font-size: 30px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        border-bottom: 0px;
+        text-align: center;
+        vertical-align: middle;
+      }
+      .GraphPanel{
+        width: 100%;
+        height: 750px;
+      }
+      .Col1{
+        width: 50%;
+      }
+      .Col2{
+        width: 50%;
+      }
+      .TableRow{
+        width: 100%;
+      }
+      .GraphTable{
+        width: 100%;
+      }
+      table,th,td{
+        border-collapse:collapse;s
+      }
+    </style>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+
+      // Draw Charts Once HTML page/scripts have been loaded
+      google.setOnLoadCallback(drawWordFreqGraph);
+      google.setOnLoadCallback(drawWordLengthGraph1);
+      google.setOnLoadCallback(drawWordLengthGraph2);
+      google.setOnLoadCallback(drawWordsPerSentenceFreqGraph1);
+      google.setOnLoadCallback(drawWordsPerSentenceFreqGraph2);
+      google.setOnLoadCallback(drawVowelPercentageGraph1);
+      google.setOnLoadCallback(drawVowelPercentageGraph2);
+      google.setOnLoadCallback(drawWordsPerSentenceGraph1);
+      google.setOnLoadCallback(drawWordsPerSentenceGraph2);
+      
+      // Draw Word Frequency Graph (Per Author)
+      function drawWordFreqGraph() {
+        /*-----<INSERT8>-----*/
+
+        var word_freq_options = {
+          pointSize: 1,
+          title: 'Word Frequencies',
+          hAxis: {title: 'Words', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Frequency', titleTextStyle: {color: 'red'}},
+          colors: ["#e2431e", "#6f9654", "#1c91c0"]
+        };
+
+        var word_freq_chart = new google.visualization.ColumnChart(document.getElementById('word_freq_chart_div'));
+        word_freq_chart.draw(word_freq_data, word_freq_options);
+      }
+
+      // Draw Word Length Frequency Graph (Per Author)
+      function drawWordLengthGraph1() {
+        /*-----<INSERT0>-----*/
+
+        var word_length_options_1 = {
+          pointSize: 1,
+          title: 'Word Length Frequencies',
+          hAxis: {title: 'Word Lengths (# of Characters)', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Frequency', titleTextStyle: {color: 'red'}},
+          colors: ["#e2431e", "#6f9654", "#1c91c0"]
+        };
+
+        var word_length_chart_1 = new google.visualization.LineChart(document.getElementById('avg_word_length_chart_div'));
+        word_length_chart_1.draw(word_length_data_1, word_length_options_1);
+      }
+
+      // Draw Word Length Frequency Graph (Per Author Per Document)
+      function drawWordLengthGraph2() {
+        /*-----<INSERT1>-----*/
+
+        var word_length_options_2 = {
+          pointSize: 1,
+          title: 'Word Length Frequencies',
+          hAxis: {title: 'Word Lengths (# of Characters)', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Frequency', titleTextStyle: {color: 'red'}},
+          legend: "none"
+        };
+
+        var word_length_chart_2 = new google.visualization.LineChart(document.getElementById('word_length_chart_div'));
+        word_length_chart_2.draw(word_length_data_2, word_length_options_2);
+      }
+
+      // Draw Words Per Sentence Frequency Graph (Per Author)
+      function drawWordsPerSentenceFreqGraph1() {
+        /*-----<INSERT6>-----*/
+
+        var words_per_sentence_freq_options_1 = {
+          pointSize: 1,
+          title: 'Words Per Sentence Frequencies',
+          hAxis: {title: 'Sentence Lengths (# of Words)', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Frequency', titleTextStyle: {color: 'red'}},
+          colors: ["#e2431e", "#6f9654", "#1c91c0"]
+        };
+
+        var words_per_sentence_freq_chart_1 = new google.visualization.LineChart(document.getElementById('avg_words_per_sentence_freq_chart_div'));
+        words_per_sentence_freq_chart_1.draw(words_per_sentence_freq_data_1, words_per_sentence_freq_options_1);
+      }
+
+      // Draw Word Length Frequency Graph (Per Author Per Document)
+      function drawWordsPerSentenceFreqGraph2() {
+        /*-----<INSERT7>-----*/
+
+        var words_per_sentence_freq_options_2 = {
+          pointSize: 1,
+          title: 'Words Per Sentence Frequencies',
+          hAxis: {title: 'Sentence Lengths (# of Words)', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Frequency', titleTextStyle: {color: 'red'}},
+          legend: "none"
+        };
+
+        var words_per_sentence_freq_chart_2 = new google.visualization.LineChart(document.getElementById('words_per_sentence_freq_chart_div'));
+        words_per_sentence_freq_chart_2.draw(words_per_sentence_freq_data_2, words_per_sentence_freq_options_2);
+      }
+
+      // Draw Average Vowel Percentage Bar Graph
+      function drawVowelPercentageGraph1() {
+        /*-----<INSERT2>-----*/
+
+        var vowel_percentage_options_1 = {
+          title: 'Average Number of Words (per text) that begin with a Vowel (%)',
+          hAxis: {title: 'Author', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Percentage of Words that begin with a Vowel', titleTextStyle: {color: 'red'}},
+          colors: ["#e2431e", "#6f9654", "#1c91c0"],
+          legend: "none"
+        };
+
+        var vowel_percentage_chart_1 = new google.visualization.ColumnChart(document.getElementById('vowel_percentage_chart_div'));
+        vowel_percentage_chart_1.draw(vowel_percentage_data_1, vowel_percentage_options_1);
+      }
+
+      // Draw Vowel Percentages Per Document Bar Graph
+      function drawVowelPercentageGraph2() {
+        /*-----<INSERT3>-----*/
+
+        var vowel_percentage_options_2 = {
+          title: 'Average Number of Words (per text) that begin with a Vowel (%)',
+          hAxis: {title: 'Author', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Percentage of Words that begin with a Vowel', titleTextStyle: {color: 'red'}},
+          legend: "none"
+        };
+
+        var vowel_percentage_chart_2 = new google.visualization.ColumnChart(document.getElementById('avg_vowel_percentage_chart_div'));
+        vowel_percentage_chart_2.draw(vowel_percentage_data_2, vowel_percentage_options_2);
+      }
+
+      // Draw Average Words Per Sentence Bar Graph
+      function drawWordsPerSentenceGraph1() {
+        /*-----<INSERT4>-----*/
+
+        var words_per_sentence_options_1 = {
+          title: 'Average Words Per Sentence (Per Author Only)',
+          hAxis: {title: 'Author', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: '# of Words Per Sentence', titleTextStyle: {color: 'red'}},
+          colors: ["#e2431e", "#6f9654", "#1c91c0"],
+          legend: "none"
+        };
+
+        var words_per_sentence_chart_1 = new google.visualization.ColumnChart(document.getElementById('avg_words_per_sentence_chart_div'));
+        words_per_sentence_chart_1.draw(words_per_sentence_data_1, words_per_sentence_options_1);
+      }
+
+      // Draw Average Words Per Sentence Per Document Bar Graph
+      function drawWordsPerSentenceGraph2() {
+        /*-----<INSERT5>-----*/
+
+        var words_per_sentence_options_2 = {
+          title: 'Average Words Per Sentence (Per Author & Per Document)',
+          hAxis: {title: 'Author', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: '# of Words Per Sentence', titleTextStyle: {color: 'red'}},
+          legend: "none"
+        };
+
+        var words_per_sentence_chart_2 = new google.visualization.ColumnChart(document.getElementById('words_per_sentence_chart_div'));
+        words_per_sentence_chart_2.draw(words_per_sentence_data_2, words_per_sentence_options_2);
+      }
+
+    </script>
+    <h1>Text Analysis Results</h1>
+  </head>
+  <body>
+    <table class="GraphTable">
+      <tr class="TableRow">
+        <div id="word_freq_chart_div" class="GraphPanel"></div>
+      </tr>
+      <tr class="TableRow">
+        <td class="Col1"><div id="avg_word_length_chart_div" class="GraphPanel"></div></td>
+        <td class="Col2"><div id="word_length_chart_div" class="GraphPanel"></div></td>
+      </tr>
+      <tr class="TableRow">
+        <td class="Col1"><div id="avg_words_per_sentence_freq_chart_div" class="GraphPanel"></div></td>
+        <td class="Col2"><div id="words_per_sentence_freq_chart_div" class="GraphPanel"></div></td>
+      </tr>
+      <tr class="TableRow">
+        <td class="Col1"><div id="vowel_percentage_chart_div" class="GraphPanel"></div></td>
+        <td class="Col2"><div id="avg_vowel_percentage_chart_div" class="GraphPanel"></div></td>
+      </tr>
+      <tr class="TableRow">
+        <td class="Col1"><div id="avg_words_per_sentence_chart_div" class="GraphPanel"></div></td>
+        <td class="Col2"><div id="words_per_sentence_chart_div" class="GraphPanel"></div></td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -2,9 +2,10 @@
 import re, copy
 #-----------------------------------------------------------------------------------------------------------------------
 class HTML_Report():
-	def __init__(self, template_filename, newFileName):
+	def __init__(self, template_filename, newFileName, num_words_to_plot_frequencies):
 		self.HTML_Report_template = template_filename
 		self.HTML_Report_Output = newFileName
+		self.num_words_to_plot_frequencies = num_words_to_plot_frequencies
 		self.chart_colors = ['#e2431e', '#6f9654', '#1c91c0', '#e7711b', '#f1ca3a', '#43459d']
 
 		#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
@@ -128,7 +129,7 @@ class HTML_Report():
 	#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
 	def ProcessWordFreqData(self):
 		# define number of words
-		num_words_to_plot = 20
+		num_words_to_plot = self.num_words_to_plot_frequencies
 
 		# sort master word frequency dictionary into a list of decreasing frequecies
 		sorted_master_list = []

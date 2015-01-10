@@ -14,6 +14,10 @@
         width: 100%;
         height: 750px;
       }
+      .FreqGraphPanel{
+        width: 100%;
+        height: 1000px;
+      }
       .Col1{
         width: 50%;
       }
@@ -50,14 +54,13 @@
         /*-----<INSERT8>-----*/
 
         var word_freq_options = {
-          pointSize: 1,
           title: 'Word Frequencies',
-          hAxis: {title: 'Words', titleTextStyle: {color: 'blue'}},
-          vAxis: {title: 'Frequency', titleTextStyle: {color: 'red'}},
+          hAxis: {title: 'Frequency', titleTextStyle: {color: 'blue'}},
+          vAxis: {title: 'Words', titleTextStyle: {color: 'red'}},
           colors: ["#e2431e", "#6f9654", "#1c91c0"]
         };
 
-        var word_freq_chart = new google.visualization.ColumnChart(document.getElementById('word_freq_chart_div'));
+        var word_freq_chart = new google.visualization.BarChart(document.getElementById('word_freq_chart_div'));
         word_freq_chart.draw(word_freq_data, word_freq_options);
       }
 
@@ -193,7 +196,7 @@
   <body>
     <table class="GraphTable">
       <tr class="TableRow">
-        <div id="word_freq_chart_div" class="GraphPanel"></div>
+        <div id="word_freq_chart_div" class="FreqGraphPanel"></div>
       </tr>
       <tr class="TableRow">
         <td class="Col1"><div id="avg_word_length_chart_div" class="GraphPanel"></div></td>

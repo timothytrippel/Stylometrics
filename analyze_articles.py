@@ -11,8 +11,15 @@ import HTML_GenerateReport
 html_output_filename = "fed_paper_metrics.html" 
 home_dir = "Federalist_Papers"
 
+#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
 # Instantiate HTML Graph Generator Object --> what will generate all plots dynamically
-html_graph = HTML_GenerateReport.HTML_Report("graphUI.html", html_output_filename)
+#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
+# Input: 3 parameters --> (<name of template HTML file>, <name of desired output html file>, <top number of words to plot frequencies for>)
+# 
+# Output: is an instantiated "HTML_Report" class (an object)
+
+html_graph = HTML_GenerateReport.HTML_Report("graphUI.html", html_output_filename, 20)
+#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
 
 #-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
 # Get File Paths by calling the function "GetFilePaths" inside the "file_path.py" module
@@ -84,9 +91,8 @@ for key in all_docs_dict:
 		# Extract all stylometrics from the document
 		#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=	
 		# Listed below is the format by which the "ExtractMetrics" function, which is a member of the "metrics.py" module, should
-		# be called. This function takes in a file path (as a string), a word count (as an int), and a sentence count (as an int).
-		# The function outputs stylometric data for the input document in the form of a dictionary. The format of the dictionary is
-		# as described below:
+		# be called. This function takes in a file path (as a string). The function outputs stylometric data for the input 
+		# document in the form of a dictionary. The format of the dictionary is as described below:
 		# 
 		# (Each entry in the dictionary is a <key, value> pair, of which all strings in "key"-position below are the actual keys used
 		# in each "metrics_dict")
@@ -101,20 +107,14 @@ for key in all_docs_dict:
 		# }
 		# 
 		# Function Call Format:
-		# metrics.ExtractMetrics(<file path of .txt document>, <number of words to analyze>, <number of sentences to analyze>)
+		# metrics.ExtractMetrics(<file path of .txt document>)
 		# 
 		# Note: if an insufficient number of WORDS or SENTENCES are encounted in a given document, the function will print
 		# an error message indicating which is the case, and return "None" (Python equivalent to NULL) instead of a dictionary
 		# full of data.
 
-		metrics_dict = metrics.ExtractMetrics(temp_file_path, 400, 10)
+		metrics_dict = metrics.ExtractMetrics(temp_file_path)
 		#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=	
-
-		# Verify all stylometrics were successfully extracted from the document
-		if metrics_dict == None:
-			print "Error: could not complete stylometric analysis on document %s." % (temp_file_path)
-			print
-			sys.exit(1) # exit script with error code 1
 
 		# Word Frequecies --> METRIC #1
 		author_word_freqs.append(metrics_dict["freq_dict"])
@@ -155,7 +155,6 @@ for key in all_docs_dict:
 	# 
 	# Note: each argument is in the format --> <data, data format (type)>; where the first item listed is the arguement, 
 	# and the second value listed is argument format/type.
-
 	html_graph.AddAllData(key, author_word_freqs, author_word_length_freqs, max_word_length, author_words_per_sentence_freqs, max_words_per_sentence_freq, vowel_percentages, words_per_sentence_counts)
 	#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=	
 

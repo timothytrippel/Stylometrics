@@ -39,9 +39,10 @@ def CreateListOfSentences(filename):
 
 # Function to Extract Word Frequencies from a Text
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-def ExtractWordFreqs(word_list, num_words):
+def ExtractWordFreqs(word_list):
 	word_dict = {} #declare empty dictionary
-	for i in range(num_words):
+	# Iterate over all words in a text
+	for i in range(len(word_list)):
 		word = word_list[i]
 		# if word in dictionary --> increment
 		if word_dict.has_key(word):
@@ -50,20 +51,15 @@ def ExtractWordFreqs(word_list, num_words):
 		else:
 			word_dict[word] = 1
 
-	# sort word dictionary into a list
-	# item_list = []
-	# for item in word_dict.items():
-	# 	item_list.append(item)
-	# item_list.sort(key=lambda x: x[1], reverse=True)
-
 	return word_dict
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 # Extract Word Length Frequencies 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-def ExtractWordLengthFrequencies(word_list, num_words):
+def ExtractWordLengthFrequencies(word_list):
 	length_dict = {} # create empty word lenght frequency dictionary
-	for i in range(num_words):
+	# Iterate over all words in a text
+	for i in range(len(word_list)):
 		word = word_list[i]
 		# if word length in dictionary --> increment frequency
 		if length_dict.has_key(len(word)):
@@ -110,17 +106,18 @@ def CalcAvgWordsPerSentence(word_list, sentence_list):
 
 # Extract Words per Sentence Frequencies
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-def ExtractWordsPerSentenceFreqs(sentence_list, num_sentences):
+def ExtractWordsPerSentenceFreqs(sentence_list, filename):
 	word_count_dict = {}
-	# check if num_sentences is a valid number for number of sentences present in the text
-	if num_sentences > len(sentence_list):
-		num_sentences = len(sentence_list)
-	for i in range(len(sentence_list)):
-		sentence = sentence_list[i]
+	# iterate over all sentences in a text
+	for sentence in sentence_list:
 		if word_count_dict.has_key(len(sentence)):
 			word_count_dict[len(sentence)] += 1
 		else:
 			word_count_dict[len(sentence)] = 1
+
+	# Remove all sentences of lenth 0 and 1 (since not possible)
+	if (word_count_dict.has_key(0)): del word_count_dict[0]
+	if (word_count_dict.has_key(1)): del word_count_dict[1]
 
 	# sort word dictionary into a list of tuples
 	item_list = []
@@ -176,28 +173,16 @@ def PrintWordsPerSentenceFreqs(word_counts):
 
 # Function to evaluate metrics on a text
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-def ExtractMetrics(filename, num_words, num_sentences):
+def ExtractMetrics(filename):
 	word_list = CreateListOfWords(filename) # Extract word list from a .txt file
 	sentence_list = CreateListOfSentences(filename) # Extract sentence list from a .txt file
 
-	# Verify document contains at least "num_words" number of words --> return None (python equivalent to NULL) if condition not met
-	if num_words > len(word_list):
-		print "Error: document %s does not contain enough words to complete stylometric analysis." % (filename)
-		print # Print new line char
-		return None
-
-	# Verify documnet contains at least "num_sentences" number of sentences --> return None (python equivalent to NULL) if condition not met
-	if num_sentences > len (sentence_list):
-		print "Error: document %d does not contain enough sentences to complete stylometric analysis." % (filename)
-		print # Print new line char
-		return None
-
 	# Extract all metrics for the given document
-	freqDict = ExtractWordFreqs(word_list, num_words) # Extract word frequencies from word list
-	lengthFreqList = ExtractWordLengthFrequencies(word_list, num_words) # Extract word length frequencies from word list
+	freqDict = ExtractWordFreqs(word_list) # Extract word frequencies from word list
+	lengthFreqList = ExtractWordLengthFrequencies(word_list) # Extract word length frequencies from word list
 	vowelPercentage = ExtractVowelPercentage(word_list) # Extract percentage of words that begin with a vowel
 	avgWordsPerSentence = CalcAvgWordsPerSentence(word_list, sentence_list) # Calculate average number of words per sentence
-	wordsPerSentenceFreqs = ExtractWordsPerSentenceFreqs(sentence_list, num_sentences) # Extract words per sentence frequencies
+	wordsPerSentenceFreqs = ExtractWordsPerSentenceFreqs(sentence_list, filename) # Extract words per sentence frequencies
 
 	# Return all gathered metrics in a dictionary
 	return {"freq_dict": freqDict, "length_freq_list": lengthFreqList, "words_per_sentence_freq": wordsPerSentenceFreqs, "vowel_percentage": vowelPercentage, "num_sentences": len(sentence_list), "avg_words_per_sentence": avgWordsPerSentence}

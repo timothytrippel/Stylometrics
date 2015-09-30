@@ -54,6 +54,7 @@ class HTML_Report():
 	def AddAllData(self, key, metrics):	
 		# Word Frequencies - Temp Data
 		author_word_freqs = []
+		doc_word_lengths = []
 
 		# Word Length Frequencies - Temp Data
 		author_word_length_freqs = []
@@ -75,6 +76,7 @@ class HTML_Report():
 		for metrics_dict in metrics:
 			# Word Frequecies --> METRIC #1
 			author_word_freqs.append(metrics_dict["freq_dict"])
+			doc_word_lengths.append(metrics_dict["num_words"])
 
 			# Word Length Frequencies (keep track of max frequency seen so far --> for plotting purposes) --> METRIC #2
 			word_length_freqs = metrics_dict["length_freq_list"]
@@ -95,7 +97,7 @@ class HTML_Report():
 			words_per_sentence_counts.append(metrics_dict["avg_words_per_sentence"])
 
 		# Add word frequency (for a single author) data to html graph generator
-		self.AddWordFreqData(key, author_word_freqs)
+		self.AddWordFreqData(key, author_word_freqs, doc_word_lengths)
 		# Add all word length frequency (for a single author) data to html graph generator
 		self.AddWordLengthFreqData(key, author_word_length_freqs, max_word_length)
 		# Add all words per sentence frequency (for a single author) data to html graph generator
@@ -106,8 +108,8 @@ class HTML_Report():
 		self.AddWordsPerSentenceData(key, words_per_sentence_counts)
 
 	#-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
-	def AddWordFreqData(self, author, data):
-		self.word_freq_author_list.append([author, data])
+	def AddWordFreqData(self, author, data, doc_lengths):
+		self.word_freq_author_list.append([author, data, doc_lengths])
 
 		# Add author to header string
 		self.word_freq_data_string += (", '%s', {role: \"style\"}" % (author))
@@ -184,9 +186,10 @@ class HTML_Report():
 		for author_data in self.word_freq_author_list:
 			author = author_data[0]
 			num_docs = len(author_data[1])
+			num_total_words = sum(author_data[2])
 			all_docs_data = author_data[1]
 			author_temp_freq_dict = {}
-			for doc_word_dict in all_docs_data: 
+			for doc_word_dict in all_docs_data:
 				for word_entry in sorted_master_list[0:num_words_to_plot]:
 					if author_temp_freq_dict.has_key(word_entry[0]):
 						if doc_word_dict.has_key(word_entry[0]):
@@ -196,7 +199,7 @@ class HTML_Report():
 							author_temp_freq_dict[word_entry[0]] = doc_word_dict[word_entry[0]]
 
 			for key in author_temp_freq_dict:
-				author_temp_freq_dict[key] = float(author_temp_freq_dict[key])/float(num_docs)
+				author_temp_freq_dict[key] = (float(author_temp_freq_dict[key])/float(num_total_words))*100.000
 			averaged_author_word_freqs.append([author, copy.deepcopy(author_temp_freq_dict)])
 
 		# create data strings
@@ -206,7 +209,7 @@ class HTML_Report():
 			for j in range(len(averaged_author_word_freqs)):
 				author_color = self.chart_colors[j]
 				author_word_dict = averaged_author_word_freqs[j][1]
-				self.wf_data += (", %d, \"%s\"" % (author_word_dict[word], author_color))
+				self.wf_data += (", %f, \"%s\"" % (author_word_dict[word], author_color))
 		self.wf_data = self.word_freq_data_string + self.wf_data + "]\n]);"
 
 	def ProcessWordLengthFreqData1(self):

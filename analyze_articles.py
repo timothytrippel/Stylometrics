@@ -8,8 +8,8 @@ import file_path
 import HTML_GenerateReport
 
 # User Defined Inputs (can edit script everytime or can integrate command line args)
-html_output_filename = "fed_paper_metrics.html" 
-home_dir = "Federalist_Papers"
+html_output_filename = "ren_metrics_test.html" 
+home_dir = "Renaissance"
 num_words_to_plot_frequencies_for = 20
 
 #-=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-
@@ -101,6 +101,7 @@ for key in all_docs_dict:
 		# 	"words_per_sentence_freq": <list (of tuples of format (sentend length, frequency)) of sentence length frequecies>,
 		# 	"vowel_percentage": <percentage of words that begin with a vowel in a given document as a FLOAT>, 
 		# 	"num_sentences": <number of sentences in the given document as an INT>, 
+		#	"num_words": <number of words in the given document as an INT>, 
 		# 	"avg_words_per_sentence": <average number of words per sentence in the given document as a FLOAT>
 		# }
 		# 

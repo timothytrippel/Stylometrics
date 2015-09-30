@@ -17,7 +17,7 @@ def CreateListOfWords(filename):
 	inputFile = open(filename, "rb") # open file
 	word_list = []
 	for line in inputFile:
-		temp_word_list = re.findall(r"[\w]+", line) # extract words in line into a list (array) of strings (words)
+		temp_word_list = re.findall(r"[\w|\']+", line) # extract words in line into a list (array) of strings (words)
 		lower_case_words = CastLowerCase(temp_word_list) # Cast all words to lowercase
 		word_list.extend(copy.deepcopy(lower_case_words)) # Append deep copy of lower case lists
 	inputFile.close() # close file
@@ -32,7 +32,7 @@ def CreateListOfSentences(filename):
 	input_file_text = inputFile.read()
 	temp_sentence_list = re.split(r" *[\.\?\!][\'\"\)\]]* *", input_file_text)
 	for sentence in temp_sentence_list:
-		sentence_list.append(copy.deepcopy(re.findall(r"[\w]+", sentence)))
+		sentence_list.append(copy.deepcopy(re.findall(r"[\w|\']+", sentence)))
 	inputFile.close() # close file
 	return sentence_list
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -157,6 +157,12 @@ def PrintNumTotalSentences(total_num_sentences):
 	print "Number of Sentences in Text: " + str(total_num_sentences)
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+# Function to Print Number of Words in a Text
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+def PrintNumTotalWords(total_num_words):
+	print "Number of Words in Text: " + str(total_num_words)
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 # Function to Print Average Number of Words Per Sentence in a Text
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 def PrintAvgWordsPerSentence(avgWordsPerSentence):
@@ -185,7 +191,7 @@ def ExtractMetrics(filename):
 	wordsPerSentenceFreqs = ExtractWordsPerSentenceFreqs(sentence_list, filename) # Extract words per sentence frequencies
 
 	# Return all gathered metrics in a dictionary
-	return {"freq_dict": freqDict, "length_freq_list": lengthFreqList, "words_per_sentence_freq": wordsPerSentenceFreqs, "vowel_percentage": vowelPercentage, "num_sentences": len(sentence_list), "avg_words_per_sentence": avgWordsPerSentence}
+	return {"freq_dict": freqDict, "length_freq_list": lengthFreqList, "words_per_sentence_freq": wordsPerSentenceFreqs, "vowel_percentage": vowelPercentage, "num_sentences": len(sentence_list), "avg_words_per_sentence": avgWordsPerSentence, "num_words": len(word_list)}
 
 # Function to print out all metrics on a text
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -197,6 +203,8 @@ def PrintMetrics(metrics_dict):
 	PrintVowelPercentage(metrics_dict["vowel_percentage"]) # print out vowel percentage
 	print # print new line char
 	PrintNumTotalSentences(metrics_dict["num_sentences"]) # print out total number of sentences in a text
+	print # print new line char
+	PrintNumTotalWords(metrics_dict["num_words"]) # print out total number of words in a text
 	print # print new line char
 	PrintAvgWordsPerSentence(metrics_dict["avg_words_per_sentence"]) # print out average number of words per sentence
 	print # print new line char
